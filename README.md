@@ -65,12 +65,7 @@ curl -X POST http://localhost:8000/api/v1/review/ \
 QDRANT_URL=https://YOUR-CLUSTER.qdrant.io
 QDRANT_API_KEY=your_key
 ```
-Sign up free at https://cloud.qdrant.io — 1GB free, no credit card.
 
-**Local Docker (already in docker-compose.yml):**
-```
-QDRANT_URL=http://localhost:6333
-QDRANT_API_KEY=
 ```
 
 ## Phase 2 Preview
