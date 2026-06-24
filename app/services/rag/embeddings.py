@@ -122,7 +122,7 @@ class QdrantVectorDB:
             ]
         )
 
-    def ingest(self, session_id: str, text: str, metadata: dict = None) -> int:
+    def ingest(self, session_id: str, text: str, metadata: dict = None,user_id: int = None,) -> int:
         """
         Chunk text → embed → store in single collection with session metadata.
 
@@ -135,7 +135,8 @@ class QdrantVectorDB:
         # merge caller metadata with session_id
         full_metadata = {
             **(metadata or {}),
-            "session_id": session_id,   # always injected, always filterable
+            "session_id": session_id,
+            **({"user_id": str(user_id)} if user_id else {}),    # always injected, always filterable
         }
 
         docs = self.splitter.create_documents(

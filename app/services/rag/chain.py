@@ -1,10 +1,9 @@
 import logging
 from langchain_groq import ChatGroq
-from langchain.prompts import ChatPromptTemplate
 from langchain.schema.output_parser import StrOutputParser
 from app.core.config import get_settings
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema.messages import HumanMessage, AIMessage
+from langchain.schema import HumanMessage, AIMessage
 
 settings = get_settings()
 logger = logging.getLogger("devmind.chain")

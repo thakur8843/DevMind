@@ -20,6 +20,9 @@ class Settings(BaseSettings):
 
     # Rate limiting
     rate_limit_per_minute: int = 30
+    
+    #token validity duration in minutes
+    jwt_expire_minutes: int = 30 
 
     # API auth
     api_key: str = "devmind-local-api-key"

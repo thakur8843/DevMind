@@ -1,74 +1,46 @@
-# Python
+# ── Python ────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
+.mypy_cache/
+.ruff_cache/
+.pyright/
 
-# Virtual Environments
-venv/
+# ── Virtual Environments ───────────────────────────────────
 .venv/
+venv/
 env/
 ENV/
 
-# Environment Variables
+# ── Environment ───────────────────────────────────────────
 .env
 .env.*
+!.env.example        # ← keep this committed as template
 
-# IDE
+# ── IDE ───────────────────────────────────────────────────
 .vscode/
 .idea/
 
-# OS Files
+# ── OS ────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
 
-# Testing
+# ── Testing ───────────────────────────────────────────────
 .pytest_cache/
 .coverage
 htmlcov/
 
-# Logs
+# ── Logs ──────────────────────────────────────────────────
 *.log
+logs/
 
-# Build
+# ── Build ─────────────────────────────────────────────────
 build/
 dist/
 *.egg-info/
 
-# Jupyter
+# ── Jupyter ───────────────────────────────────────────────
 .ipynb_checkpoints/
 
-# mypy
-.mypy_cache/
-
-# Ruff
-.ruff_cache/
-
-# Pyright
-.pyright/
-
-# Qdrant local storage
-qdrant_storage/
-
-# SQLite
-*.db
-*.sqlite3
-
-# Uploaded files
-uploads/
-temp/
-tmp/
-
-# Alembic (remove if you later want migrations tracked)
-# alembic/versions/*.py
-
-# Secrets
-secrets.json
-credentials.json
-.venv/
-venv/
-__pycache__/
-.env
-.pytest_cache/
-*.pyc
-.vscode/
-.idea/
+# ── Vector DB local storage

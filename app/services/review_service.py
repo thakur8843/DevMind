@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.models.review import CodeReview, ChatHistory, ReviewStatus
 from app.schemas.review import CodeReviewRequest, ChatRequest
 from app.services.rag.chain import get_review_chain, get_rag_chain_with_context
-from langchain.schema import HumanMessage, AIMessage
+from langchain.schema.messages import HumanMessage, AIMessage
 from app.services.rag.embeddings import get_vector_store
 
 
@@ -12,7 +12,7 @@ logger = logging.getLogger("devmind.service")
 
 
 async def run_code_review(
-    request: CodeReviewRequest, db: Session, request_id: str = ""
+    request: CodeReviewRequest, db: Session,user_id: int, request_id: str = ""
 ) -> CodeReview:
     session_id = request.session_id or str(uuid.uuid4())
     logger.info(f"Starting review for session={session_id} lang={request.language} [{request_id[:8]}]")
@@ -22,6 +22,7 @@ async def run_code_review(
         language=request.language,
         code_snippet=request.code,
         status=ReviewStatus.PENDING,
+        user_id=user_id,
     )
     db.add(record)
     db.commit()
@@ -57,7 +58,7 @@ async def run_code_review(
 
 
 async def run_rag_chat(
-    request: ChatRequest, db: Session, request_id: str = ""
+    request: ChatRequest, db: Session,user_id: int, request_id: str = ""
 ) -> dict:
     logger.info(f"RAG chat session={request.session_id} [{request_id[:8]}]")
 
@@ -66,13 +67,14 @@ async def run_rag_chat(
         session_id=request.session_id,
         role="user",
         content=request.question,
+        user_id=user_id,
     ))
     db.commit()
 
     # 2. load last 10 chat turns from PostgreSQL
     history_rows = (
         db.query(ChatHistory)
-        .filter(ChatHistory.session_id == request.session_id)
+        .filter(ChatHistory.session_id == request.session_id, ChatHistory.user_id == user_id)
         .order_by(ChatHistory.created_at)
         .limit(10)
         .all()
@@ -108,6 +110,7 @@ async def run_rag_chat(
         session_id=request.session_id,
         role="assistant",
         content=answer,
+        user_id=user_id,
     ))
     db.commit()
 

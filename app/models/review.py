@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Enum, Float
+from sqlalchemy import Column, Integer, String, Text, DateTime, Enum, Float, ForeignKey, Index
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 import enum
+
 
 
 
@@ -17,6 +19,8 @@ class CodeReview(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     session_id = Column(String(64), index=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user = relationship("User", back_populates="reviews")
     language = Column(String(32), default="python")
     code_snippet = Column(Text, nullable=False)
     review_result = Column(Text, nullable=True)
@@ -33,6 +37,8 @@ class ChatHistory(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     session_id = Column(String(64), index=True, nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user = relationship("User", back_populates="chats")
     role = Column(String(16), nullable=False)   # "user" | "assistant"
     content = Column(Text, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
